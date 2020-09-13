@@ -9,6 +9,7 @@ class WorldTime {
   String flag; // url to an asset flag icon
   String url; // location url for api endpoint
   bool isDaytime;
+  
   WorldTime({this.location, this.flag, this.url });
 
   Future<void> getTime() async{
@@ -20,14 +21,16 @@ class WorldTime {
 
      // get properties fron data
      String datetime = data['datetime'];
-     String offset = data['utc_offset'].substring(1,3);
+    // String offset = data['utc_offset'].substring(1,3);
+    // String offset = data['utc_offset'].substring(4,6);
      //print(datetime);
      //print(offset);
 
      //create DateTime object
      DateTime now = DateTime.parse(datetime);
      
-     now = now.add(Duration(hours: int.parse(offset)));
+     now = now.add(Duration(hours: int.parse(data['utc_offset'].substring(1,3))));
+     now = now.add(Duration(minutes: int.parse(data['utc_offset'].substring(4,6))));
      
      //  set time property
      isDaytime = now.hour > 6 && now.hour < 20 ? true : false;
